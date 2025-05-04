@@ -17,4 +17,15 @@ def welcome():
     print("Let's start the game")
     print("-" * 43)
 
-    
+#Funkce pro vytvoření prázdné hrací desky (9 políček)
+def create_board():
+    return [" " for _ in range(9)]
+
+def print_board(board):
+    print("=" * 43)
+    for i in range(3):
+        print("+---+---+---+")
+        print(f"| {board[i*3]} | {board[i*3+1]} | {board[i*3+2]} |")
+    print("+---+---+---+")
+    print("=" * 43)
+
