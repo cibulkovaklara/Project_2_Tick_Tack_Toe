@@ -29,3 +29,16 @@ def print_board(board):
     print("+---+---+---+")
     print("=" * 43)
 
+def is_valid_move(board, move):
+    return board[move] == " "
+
+def is_winner(board, player):
+    win_conditions = [
+        [0,1,2], [3,4,5], [6,7,8],
+        [0,3,6], [1,4,7], [2,5,8],
+        [0,4,8], [2,4,6]
+    ]
+    return any(all(board[i] == player for i in condition) for condition in win_conditions)
+
+def is_draw(board):
+    return all(cell != " " for cell in board)
