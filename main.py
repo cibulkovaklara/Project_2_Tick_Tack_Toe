@@ -42,3 +42,27 @@ def is_winner(board, player):
 
 def is_draw(board):
     return all(cell != " " for cell in board)
+
+def get_move(player, board):
+    while True:
+        try:
+            move = int(input(f"Player {player} | Please enter your move number (1-9): "))
+            if move < 1 or move > 9:
+                print("Invalid input. Please choose a number from 1 to 9.")
+            elif not is_valid_move(board, move - 1):
+                print("This cell is already occupied. Choose another one.")
+            else:
+                return move - 1
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+def play_game():
+    welcome()
+    board = create_board()
+    current_player = "O"
+
+while True:
+        print_board(board)
+        move = get_move(current_player, board)
+        board[move] = current_player
+
