@@ -61,8 +61,23 @@ def play_game():
     board = create_board()
     current_player = "O"
 
-while True:
+    while True:
         print_board(board)
         move = get_move(current_player, board)
         board[move] = current_player
+
+        if is_winner(board, current_player):
+            print_board(board)
+            print(f"Congratulations, the player {current_player} WON!")
+            break
+        # Kontrola remízy        
+        elif is_draw(board):
+            print_board(board)
+            print("It's a DRAW!")
+            break
+        # Přepnutí hráče (O <-> X)
+        current_player = "X" if current_player == "O" else "O"
+
+if __name__ == "__main__":
+    play_game()
 
