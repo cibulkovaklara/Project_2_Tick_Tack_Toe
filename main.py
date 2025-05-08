@@ -4,7 +4,7 @@ projekt_2.py: druhý projekt do Engeto Online Python Akademie
 author: Klara Cibulkova
 email: cibulkovaklara@seznam.cz
 """
-
+# Funkce pro zobrazení úvodního textu s pravidly
 def welcome():
     print("Welcome to Tic Tac Toe")
     print("=" * 43)
@@ -28,10 +28,10 @@ def print_board(board):
         print(f"| {board[i*3]} | {board[i*3+1]} | {board[i*3+2]} |")
     print("+---+---+---+")
     print("=" * 43)
-
+# Funkce ověřující, zda je tah platný
 def is_valid_move(board, move):
     return board[move] == " "
-
+# Funkce kontrolující, zda daný hráč vyhrál
 def is_winner(board, player):
     win_conditions = [
         [0,1,2], [3,4,5], [6,7,8],
@@ -39,10 +39,10 @@ def is_winner(board, player):
         [0,4,8], [2,4,6]
     ]
     return any(all(board[i] == player for i in condition) for condition in win_conditions)
-
+# Funkce kontrolující, zda je hra remízou
 def is_draw(board):
     return all(cell != " " for cell in board)
-
+# Funkce pro získání tahu od hráče
 def get_move(player, board):
     while True:
         try:
@@ -55,12 +55,12 @@ def get_move(player, board):
                 return move - 1
         except ValueError:
             print("Invalid input. Please enter a number.")
-
+# Hlavní herní smyčka
 def play_game():
     welcome()
     board = create_board()
     current_player = "O"
-
+# Smyčka běží, dokud nenastane výhra nebo remíza
     while True:
         print_board(board)
         move = get_move(current_player, board)
