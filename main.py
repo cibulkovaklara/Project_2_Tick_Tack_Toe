@@ -4,8 +4,11 @@ projekt_2.py: druhý projekt do Engeto Online Python Akademie
 author: Klara Cibulkova
 email: cibulkovaklara@seznam.cz
 """
-# Funkce pro zobrazení úvodního textu s pravidly
+# přidání pro kompatibilitu s různými verzemi Pythonu
+from typing import List
+
 def welcome():
+    """Zobrazí uvítací zprávu a pravidla hry."""
     print("Welcome to Tic Tac Toe")
     print("=" * 43)
     print("GAME RULES:")
@@ -17,50 +20,57 @@ def welcome():
     print("Let's start the game")
     print("-" * 43)
 
-#Funkce pro vytvoření prázdné hrací desky (9 políček)
-def create_board():
+def create_board() -> List[str]:
+    """Vytvoří a vrátí prázdnou hrací desku (seznam 9 políček)."""
     return [" " for _ in range(9)]
 
-def print_board(board):
+def print_board(board: List[str]):
+    """Vytiskne aktuální stav hrací desky."""
     print("=" * 43)
     for i in range(3):
         print("+---+---+---+")
         print(f"| {board[i*3]} | {board[i*3+1]} | {board[i*3+2]} |")
     print("+---+---+---+")
     print("=" * 43)
-# Funkce ověřující, zda je tah platný
-def is_valid_move(board, move):
+
+def is_valid_move(board: List[str], move: int) -> bool:
+    """Zkontroluje, zda je zadaný tah platný (tj. volné políčko)."""
     return board[move] == " "
-# Funkce kontrolující, zda daný hráč vyhrál
-def is_winner(board, player):
+
+def is_winner(board: List[str], player: str) -> bool:
+    """Zkontroluje, zda daný hráč vyhrál hru."""
     win_conditions = [
-        [0,1,2], [3,4,5], [6,7,8],
-        [0,3,6], [1,4,7], [2,5,8],
-        [0,4,8], [2,4,6]
+        [0,1,2], [3,4,5], [6,7,8], # řádky
+        [0,3,6], [1,4,7], [2,5,8], # sloupce
+        [0,4,8], [2,4,6]           # diagonály
     ]
     return any(all(board[i] == player for i in condition) for condition in win_conditions)
-# Funkce kontrolující, zda je hra remízou
-def is_draw(board):
+
+def is_draw(board: List[str]) -> bool:
+    """Zkontroluje, zda hra skončila remízou (všechna políčka obsazena)."""
     return all(cell != " " for cell in board)
-# Funkce pro získání tahu od hráče
-def get_move(player, board):
+
+def get_move(player: str, board: List[str]) -> int:
+    """Získá a ověří tah hráče. Vrací index (0–8)."""
     while True:
         try:
-            move = int(input(f"Player {player} | Please enter your move number (1-9): "))
-            if move < 1 or move > 9:
+            user_input = input(f"Player {player} | Please enter your move number (1-9): ")
+            move = int(user_input) - 1  # Převod na index
+            if move < 0 or move > 8:
                 print("Invalid input. Please choose a number from 1 to 9.")
-            elif not is_valid_move(board, move - 1):
+            elif not is_valid_move(board, move):
                 print("This cell is already occupied. Choose another one.")
             else:
-                return move - 1
+                return move
         except ValueError:
-            print("Invalid input. Please enter a number.")
-# Hlavní herní smyčka
+            print("Invalid input. Please enter a valid number.")
+
 def play_game():
+    """Spustí hru Tic Tac Toe pro dva hráče."""
     welcome()
     board = create_board()
-    current_player = "O"
-# Smyčka běží, dokud nenastane výhra nebo remíza
+    current_player = "X" # Začíná hráč X
+
     while True:
         print_board(board)
         move = get_move(current_player, board)
@@ -69,14 +79,14 @@ def play_game():
         if is_winner(board, current_player):
             print_board(board)
             print(f"Congratulations, the player {current_player} WON!")
-            break
-        # Kontrola remízy        
+            break       
         elif is_draw(board):
             print_board(board)
             print("It's a DRAW!")
             break
-        # Přepnutí hráče (O <-> X)
-        current_player = "X" if current_player == "O" else "O"
+
+        # Přepnutí hráče
+        current_player = "0" if current_player == "X" else "X"
 
 if __name__ == "__main__":
     play_game()
